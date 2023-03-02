@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load">
+  <ribbon>
+    <tabs>
+      <tab idMso="TabAddIns">
+        <group id="ContentGroup" label="Barcode">
+          <button id="connect" 
+               label="Connect to reader"
+               onAction="ConnectReader"
+               supertip="Connect to the barcode reader"/>
+          <button id="start" 
+               label="Start reader"
+               onAction="StartReader"
+               supertip="Start the barcode reader"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
+
