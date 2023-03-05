@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.Office.Tools.Ribbon;
+using System;
+
 namespace value_receiver {
     partial class Ribbon: Microsoft.Office.Tools.Ribbon.RibbonBase {
         /// <summary>
@@ -29,13 +32,16 @@ namespace value_receiver {
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent() {
-            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.Scanner = this.Factory.CreateRibbonTab();
             this.start_stop = this.Factory.CreateRibbonGroup();
             this.connect = this.Factory.CreateRibbonButton();
-            this.editBox1 = this.Factory.CreateRibbonEditBox();
+            this.box2 = this.Factory.CreateRibbonBox();
+            this.value = this.Factory.CreateRibbonEditBox();
+            this.button1 = this.Factory.CreateRibbonButton();
+            this.macro = this.Factory.CreateRibbonComboBox();
             this.Scanner.SuspendLayout();
             this.start_stop.SuspendLayout();
+            this.box2.SuspendLayout();
             this.SuspendLayout();
             // 
             // Scanner
@@ -46,25 +52,51 @@ namespace value_receiver {
             // 
             // start_stop
             // 
-            this.start_stop.DialogLauncher = ribbonDialogLauncherImpl1;
             this.start_stop.Items.Add(this.connect);
-            this.start_stop.Items.Add(this.editBox1);
-            this.start_stop.Label = "Manage Scanner";
+            this.start_stop.Items.Add(this.macro);
+            this.start_stop.Items.Add(this.box2);
+            this.start_stop.Label = "Scanner";
             this.start_stop.Name = "start_stop";
             this.start_stop.DialogLauncherClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.start_stop_DialogLauncherClick);
             // 
             // connect
             // 
+            this.connect.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
             this.connect.Label = "Start Scanner";
             this.connect.Name = "connect";
+            this.connect.OfficeImageId = "MacroPlay";
+            this.connect.ShowImage = true;
             this.connect.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.connect_Click);
             // 
-            // editBox1
+            // box2
             // 
-            this.editBox1.Label = "editBox1";
-            this.editBox1.Name = "editBox1";
-            this.editBox1.ShowLabel = false;
-            this.editBox1.Text = null;
+            this.box2.Items.Add(this.value);
+            this.box2.Items.Add(this.button1);
+            this.box2.Name = "box2";
+            // 
+            // value
+            // 
+            this.value.Label = "Value";
+            this.value.Name = "value";
+            this.value.OfficeImageId = "TextBoxInsert";
+            this.value.ShowImage = true;
+            this.value.ShowLabel = false;
+            this.value.SuperTip = "This value is used as though it were scanned in by the scanner. You can use this " +
+    "field if the scanner is misbehaving or not working";
+            this.value.Text = null;
+            // 
+            // button1
+            // 
+            this.button1.Label = "Dispatch";
+            this.button1.Name = "button1";
+            this.button1.SuperTip = "Dispatch Value";
+            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
+            // 
+            // macro
+            // 
+            this.macro.Label = "Use Macro";
+            this.macro.Name = "macro";
+            this.macro.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.macro_TextChanged);
             // 
             // Ribbon
             // 
@@ -76,6 +108,8 @@ namespace value_receiver {
             this.Scanner.PerformLayout();
             this.start_stop.ResumeLayout(false);
             this.start_stop.PerformLayout();
+            this.box2.ResumeLayout(false);
+            this.box2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -85,7 +119,10 @@ namespace value_receiver {
         internal Microsoft.Office.Tools.Ribbon.RibbonTab Scanner;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup start_stop;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton connect;
-        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBox1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox value;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonBox box2;
+        internal RibbonComboBox macro;
     }
 
     partial class ThisRibbonCollection {
