@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
 using System.Web.Script.Serialization;
 using System.Threading;
 using Microsoft.Office.Tools.Ribbon;
+using OpenCvSharp;
+using ZXing.OpenCV;
+using ZXing;
+using System.Windows;
 
 namespace value_receiver {
     public partial class Ribbon {
         Thread listener;
 
         private void Ribbon_Load(object sender, RibbonUIEventArgs e) {
-            listener = new Thread(new ThreadStart(start_listener));
+            listener = new Thread(new ThreadStart(start_scanner));
         }
 
         private void connect_Click(object sender, RibbonControlEventArgs e) {
             if (listener.ThreadState.Equals(ThreadState.Running)) {
                 listener.Abort();
-                listener = new Thread(new ThreadStart(start_listener));
+                listener = new Thread(new ThreadStart(start_scanner));
                 
                 this.connect.Label = "Connect to Scanner";
             } else {
@@ -27,29 +28,31 @@ namespace value_receiver {
             }
         }
 
-        void start_listener() {
-            while (true) {
-                this.connect.Label = "Disconnect";
-                // TODO: Replace with value from text field
+        void start_scanner() {
+            VideoCapture camera = new VideoCapture(0);
+            ZXing.OpenCV.BarcodeReader reader = new ZXing.OpenCV.BarcodeReader();
 
-                var stream = new TcpClient("localhost", 8080);
-                using (var reader = new StreamReader(stream.GetStream(), Encoding.UTF8)) {
-                    string line;
+            using (var window = new OpenCvSharp.Window("Camera"))
+            using (Mat image = new Mat()) {
+                while (true) {
+                    camera.Read(image); // same as cvQueryFrame
 
-                    while ((line = reader.ReadLine()) != null) {
-                        ProcessMessage(line);
+                    Result result = reader.Decode(image);
+
+                    if (result != null) {
+                        ProcessMessage(result.Text);
                     }
-                }
 
-                Thread.Sleep(10);
+                    window.ShowImage(image);
+
+                    Cv2.WaitKey(30);
+                }
             }
         }
 
         void ProcessMessage(string message) {
             try {
-                var code = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(message)["raw"];
-
-                System.Windows.Forms.MessageBox.Show(code);
+                MessageBox.Show(message);
             } catch(NullReferenceException) { }
         }
 

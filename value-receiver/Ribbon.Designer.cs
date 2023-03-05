@@ -55,7 +55,7 @@ namespace value_receiver {
             // 
             // connect
             // 
-            this.connect.Label = "Connect to Scanner";
+            this.connect.Label = "Start Scanner";
             this.connect.Name = "connect";
             this.connect.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.connect_Click);
             // 
